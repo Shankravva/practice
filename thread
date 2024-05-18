@@ -1,0 +1,56 @@
+package sdmcet.cse.oop.threads;
+
+class MyThread extends Thread{
+	private String title;
+	MyThread(String title){
+		super(title);this.title=title;
+		start();
+	}
+	public void main() {
+		System.out.println("child Thread: "+title);
+		for(int i=1;i<=5;i++) {
+			System.out.println(title+":"+i);
+			try {
+				Thread.sleep(1000);
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+}
+public class ThreadDemo {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		MyThread mt1=new MyThread("One");
+		MyThread mt2=new MyThread("Two");
+		MyThread mt3=new MyThread("Three");
+		Thread t=Thread.currentThread();
+		
+		System.out.println(t);
+		t.setName("My Main Thread");
+		t.setPriority(1);
+		System.out.println(t);
+		System.out.println("One: "+mt1.isAlive());
+		System.out.println("two: "+mt2.isAlive());
+		System.out.println("Three: "+mt3.isAlive());
+		for(int i=1;i<=5;i++) {
+			System.out.println("Main Thread: "+i);
+			try {
+				Thread.sleep(1000);
+			}catch(InterruptedException e) {
+				e.printStackTrace();
+			}
+		}
+		try {
+			mt1.join();
+			mt2.join();
+			mt3.join();
+		}catch(InterruptedException e) {
+			e.printStackTrace();
+		}
+		System.out.println("One: "+mt1.isAlive());
+		System.out.println("two: "+mt2.isAlive());
+		System.out.println("Three: "+mt3.isAlive());
+	}
+}
